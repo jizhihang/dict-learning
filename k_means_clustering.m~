@@ -1,0 +1,4 @@
+function ret = k_means_clustering( X, m )
+ret = farthest_point_clustering(X, m);
+labels = label(X
+end

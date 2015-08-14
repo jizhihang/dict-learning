@@ -1,9 +1,8 @@
-function ret = codebook_optimization( W, X )
-D = init(W, X);
+function ret = codebook_optimization( W, D, X )
 cur_cost = cost_dict_learning(W, D, X);
-costs = zeros(1, 10000);
-costs(1) = cur_cost;
-index = 1;
+%costs = zeros(1, 10000);
+%costs(1) = cur_cost;
+%index = 1;
 eta = 0.01;
 
 while 1 
@@ -15,25 +14,24 @@ while 1
   elseif ((cur_cost - new_cost) > (0.000001 * cur_cost))
     D = new_D;
     cur_cost = new_cost;
-    if (index == size(costs, 2))
-      costs = [costs zeros(1, 10000)];
-    end
-    index = index + 1;
-    costs(index) = cur_cost;
+    
+    %if (index == size(costs, 2))
+    %  costs = [costs zeros(1, 10000)];
+    %end
+    
+    %index = index + 1;
+    %costs(index) = cur_cost;
     eta = 1.2 * eta;
   else
     break;
   end
 end
 
-figure(1); clf();
-plot(costs(1, 1:index));
-legend('cost');
-ret = new_D;
-end
+%figure(1); clf();
+%plot(costs(1, 1:index));
+%legend('cost');
 
-function ret = init( D, X )
-ret = ones(size(D, 2), size(X, 2)) / sqrt(3);
+ret = new_D;
 end
 
 function ret = update_weights( W, D, X, eta )

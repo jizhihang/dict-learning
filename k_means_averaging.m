@@ -18,7 +18,7 @@ while 1
     %if (index == size(costs, 2))
     %  costs = [costs zeros(1, 10000)];
     %end
-    %
+    
     %index = index + 1;
     %costs(index) = cur_cost;
     eta = 1.2 * eta;
@@ -30,13 +30,13 @@ end
 %figure(1); clf();
 %plot(costs(1, 1:index));
 %legend('cost');
+
 ret = new_D;
 end
 
 function ret = update_atoms( X, D, L, eta )
-n = size(X, 2);
 m = size(D, 2);
-ret = zeros(d, m);
+ret = zeros(size(D));
 for i = 1:m
   cluster = X(1:end, L == i);
   for j = 1:size(cluster, 2)

@@ -12,6 +12,6 @@ for i = 2:m
     dists(j) = dist;
   end
   [~, I] = max(dists);
-  ret(i) = X(1:end, I);
+  ret(1:end, i) = X(1:end, I);
 end
 end

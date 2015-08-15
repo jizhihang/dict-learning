@@ -39,7 +39,7 @@ m = size(D, 2);
 n = size(X, 2);
 d = size(D, 1);
 
-logs = zeros(m, n, d);
+logs = zeros(d, m, n);
 for i = 1:m
   for j = 1:n
     logs(1:end, i, j) = log_map(D(1:end, i), X(1:end, j));

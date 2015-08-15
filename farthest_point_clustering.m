@@ -1,17 +1,11 @@
-function ret = farthest_point_clustering( X, m )
-n = size(X, 2);
-ret = X(1:end, 1:m);
+function atoms = farthest_point_clustering( X, m )
+atoms = zeros(size(X, 1), m);
+atoms(:, 1) = X(:, 1);
+dot_matrix = zeros(m - 1, size(X, 2));
+
 for i = 2:m
-  dists = zeros(n, 1);
-  for j = 1:n
-    dist = inf;
-    for k = 1:(i - 1)
-      dist = min(dist, measure(log_map(X(1:end, j), ret(1:end, k)), ...
-                               ret(1:end, k)));
-    end
-    dists(j) = dist;
-  end
-  [~, I] = max(dists);
-  ret(1:end, i) = X(1:end, I);
+  dot_matrix(i - 1, :) = atoms(:, i - 1)' * X;
+  [~, I] = min(max(dot_matrix(1:(i - 1), :)));
+  atoms(:, i) = X(:, I);
 end
 end

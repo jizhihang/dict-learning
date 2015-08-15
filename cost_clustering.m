@@ -1,11 +1,13 @@
-function ret = cost_clustering(X, D, L)
-m = size(D, 2);
-ret = 0;
-for i = 1:m
-  cluster = X(1:end, L == i);
-  for j = 1:size(cluster, 2)
-    dist = log_map(cluster(1:end, j), D(1:end, i));
-    ret = ret + inner_product(dist, dist, D(1:end, i));
+function cost = cost_clustering(X, D, L)
+cost = 0;
+
+for i = 1:size(D, 2)
+  cluster = X(:, L == i);
+  dots = D(:, i)' * cluster;
+  
+  for j = 1:size(dots, 2)
+    cost = cost + ...
+      arccos(sign(dots(j)) * min([abs(dots(j)), 1]))^2;
   end
 end
 end

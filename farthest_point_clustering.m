@@ -1,5 +1,7 @@
 function atoms = farthest_point_clustering( X, m )
-atoms = zeros(size(X, 1), m);
+d = size(X, 1);
+
+atoms = zeros(d, m);
 atoms(:, 1) = X(:, 1);
 dot_matrix = zeros(m - 1, size(X, 2));
 

@@ -1,6 +1,5 @@
-function ret = log_map( arg, base )
+function log_map = log_map( arg, base )
 dot = arg' * base;
-dir = arg - (dot * base);
-
-ret = (acos((1 - eps) * dot) / (norm(dir) + eps)) * dir;
+dir = arg - (base * dot);
+log_map = dir * (my_acos(dot) * my_inv(norm(dir)));
 end

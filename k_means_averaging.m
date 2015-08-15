@@ -21,8 +21,11 @@ updated_D = new_D;
 end
 
 function updated_D = update_atoms( X, D, L, eta )
+m = size(D, 2);
+
 grad = zeros(size(D));
-for i = 1:size(D, 2)
+
+for i = 1:m
   cluster = X(:, L == i);
   
   for j = 1:size(cluster, 2)

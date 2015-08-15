@@ -1,15 +1,17 @@
-function ret = cost_dict_learning( W, D, X )
-lambda = 10;
-ret = 0;
+function cost = cost_dict_learning( W, D, X )
+d = size(X, 1);
+m = size(D, 2);
+n = size(X, 2);
 
-for i = 1:size(X, 2)
-  dist = zeros(size(X, 1), 1);
-  for j = 1:size(D, 2)
-    dist = dist + (log_map(D(1:end, j), X(1:end, i)) * W(j, i));
+cost = norm(W, 1) * 10;
+
+for i = 1:n
+  dist = zeros(d, 1);
+  
+  for j = 1:m
+    dist = dist + (log_map(D(:, j), X(:, i)) * W(j, i));
   end
   
-  ret = ret + inner_product(dist, dist, X(1:end, i));
+  cost = cost + norm(dist)^2;
 end
-
-ret = ret + (norm(W, 1) * lambda);
 end

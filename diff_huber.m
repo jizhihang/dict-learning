@@ -1,9 +1,9 @@
-function ret = diff_huber( x )
-beta = 0.001;
+function diff = diff_huber( x )
+beta = 0.00001;
 
 if (abs(x) < beta)
-  ret = x / beta;
+  diff = x / beta;
 else
-  ret = sign(x);
+  diff = sign(x);
 end
 end

@@ -1,4 +1,12 @@
 function atoms = farthest_point_clustering( X, m )
+%FARTHEST_POINT_CLUSTERING Computes a subset of "separated" points in a set
+%   This function computes the farthest point clustering of a given size
+%   for a given set of inputs, a set of points maximizing the minimum
+%   distance between any two points in the set. This function is used to
+%   initialize the dictionary computed by the k-means clustering algorithm.
+%   Note that, on the unit sphere, the distances between pairs of points
+%   can be compared by computing their dot products as well.
+
 d = size(X, 1);
 n = size(X, 2);
 

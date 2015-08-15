@@ -21,9 +21,10 @@ updated_W = new_W;
 end
 
 function updated_W = update_weights( W, D, X, eta )
+m = size(W, 1);
 n = size(W, 2);
 
-norm_grad_matrix = zeros(size(W));
+norm_grad_matrix = zeros(m, n);
 
 for i = 1:n
   norm_grad_matrix(:, i) = norm_grad(W(:, i), D, X(:, i));

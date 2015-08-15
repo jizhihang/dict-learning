@@ -41,7 +41,7 @@ for i = 1:n
   end
 end
 
-norm_grad_matrix = zeros(size(D));
+norm_grad_matrix = zeros(d, m);
 
 for k = 1:m
   for i = 1:n

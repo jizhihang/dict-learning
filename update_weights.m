@@ -25,7 +25,10 @@ function grad = norm_grad( W_k, D, X_k )
 %   single input. The cost function (defined in cost_dict_learning.m)
 %   involves an l1 norm of the weights, and the derivative is approximated
 %   by diff_huber.m. Note that the regularization parameter must match the
-%   one used to define the cost function.
+%   one used to define the cost function. The sum of the weights of any
+%   input must also be normalized to 1.
+
+global lambda
 
 m = size(W_k, 1);
 
@@ -44,6 +47,6 @@ for i = 1:m
   sgn(i) = diff_huber(W_k(i));
 end
 
-grad = (sgn * 10) + (2 * (atom_logs * W_k));
+grad = (sgn * lambda) + (2 * (atom_logs * W_k));
 grad = grad - (sum(grad) / m);
 end

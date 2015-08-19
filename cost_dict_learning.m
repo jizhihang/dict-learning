@@ -11,11 +11,13 @@ function cost = cost_dict_learning( W, D, X )
 %   inputs. The regularization parameter for the l1 norm of the weight
 %   matrix is set to 10.
 
+global lambda
+
 d = size(X, 1);
 m = size(D, 2);
 n = size(X, 2);
 
-cost = norm(W, 1) * 10;
+cost = norm(W, 1) * lambda;
 
 for i = 1:n
   dist = zeros(d, 1);

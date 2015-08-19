@@ -5,19 +5,21 @@ function updated_D = codebook_optimization( W, D, X )
 %   the underlying cost function is computed in cost_dict_learning.m, and
 %   its gradient is computed in update_atoms_global.m.
 
+global init_eta eta_dec_factor eta_inc_factor thresh_factor
+
 cur_cost = cost_dict_learning(W, D, X);
-eta = 0.01;
+eta = init_eta;
 
 while 1 
   new_D = update_atoms_global(W, D, X, eta);
   new_cost = cost_dict_learning(W, new_D, X);
 
   if (cur_cost < new_cost)
-    eta = eta / 2;
-  elseif ((cur_cost - new_cost) > (0.01 * cur_cost))
+    eta = eta_dec_factor * eta;
+  elseif ((cur_cost - new_cost) > (thresh_factor * cur_cost))
     D = new_D;
     cur_cost = new_cost;
-    eta = 1.2 * eta;
+    eta = eta_inc_factor * eta;
   else
     break;
   end

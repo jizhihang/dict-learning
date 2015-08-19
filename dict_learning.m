@@ -11,6 +11,8 @@ function [ W, D ] = dict_learning( X, m )
 %   implemented in cost_dict_learning.m. In addition, we graph the cost
 %   function over the course of the algorithm, up to convergence.
 
+global thresh_factor
+
 D = k_means_clustering(X, m);
 W = init_weights(D, X);
 cur_cost = cost_dict_learning(W, D, X);
@@ -24,7 +26,7 @@ while 1
   D = codebook_optimization(W, D, X);
   new_cost = cost_dict_learning(W, D, X);
 
-  if ((cur_cost - new_cost) > (0.01 * cur_cost))
+  if ((cur_cost - new_cost) > (thresh_factor * cur_cost))
     cur_cost = new_cost;
     
     if (index == size(costs, 2))

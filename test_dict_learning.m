@@ -1,5 +1,5 @@
 d = 10;
-n = 100;
+n = 20;
 
 m = d;
 I = eye(m);
@@ -12,4 +12,3 @@ end
 
 [W, D] = dict_learning(X, m);
 new_X = D * W;
-display(X - new_X);

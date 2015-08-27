@@ -1,5 +1,5 @@
 function [ ] = reconstruct_image( filename )
-patch_size = 9;
+patch_size = 5;
 var_thresh = 10;
 
 half = (patch_size - 1) / 2;
@@ -56,5 +56,5 @@ for i = (1 + half):(x - half)
 end
 
 new_I = new_I ./ count;
-imshow(uint8(new_I));
+imwrite(uint8(new_I), strcat('out/out-', filename));
 end

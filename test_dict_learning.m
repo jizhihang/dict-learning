@@ -11,3 +11,5 @@ for i = 1:n
 end
 
 [W, D] = dict_learning(X, m);
+new_X = D * W;
+display(X - new_X);

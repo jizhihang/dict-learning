@@ -12,12 +12,17 @@ cur_cost = cost_clustering(X, D, L);
 eta = init_eta;
 
 while 1 
-  new_D = update_atoms_cluster(X, D, L, eta);
+  update_D = update_atoms_cluster(X, D, L);
+  new_D = normc(D - (update_D * eta));
   new_cost = cost_clustering(X, new_D, L);
 
-  if (cur_cost < new_cost)
+  while (cur_cost < new_cost)
     eta = eta_dec_factor * eta;
-  elseif ((cur_cost - new_cost) > (thresh_factor * cur_cost))
+    new_D = normc(D - (update_D * eta));
+    new_cost = cost_clustering(X, new_D, L);
+  end
+  
+  if ((cur_cost - new_cost) > (thresh_factor * cur_cost))
     D = new_D;
     cur_cost = new_cost;
     eta = eta_inc_factor * eta;

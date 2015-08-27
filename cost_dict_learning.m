@@ -17,15 +17,17 @@ d = size(X, 1);
 m = size(D, 2);
 n = size(X, 2);
 
-cost = norm(W, 1) * lambda;
+costs = zeros(1, n);
 
-for i = 1:n
+parfor i = 1:n
   dist = zeros(d, 1);
   
   for j = 1:m
     dist = dist + (log_map(D(:, j), X(:, i)) * W(j, i));
   end
   
-  cost = cost + norm(dist)^2;
+  costs(i) = norm(dist)^2;
 end
+
+cost = (norm(W, 1) * lambda) + sum(costs);
 end

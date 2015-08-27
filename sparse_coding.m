@@ -7,16 +7,36 @@ function updated_W = sparse_coding( W, D, X )
 
 global init_eta eta_dec_factor eta_inc_factor thresh_factor
 
+d = size(D, 1);
+m = size(D, 2);
+n = size(X, 2);
+
 cur_cost = cost_dict_learning(W, D, X);
 eta = init_eta;
 
+atom_logs = zeros(m, m, n);
+
+parfor k = 1:n
+  for i = 1:m
+    for j = 1:m
+      atom_logs(i, j, k) = 2 * (log_map(D(:, i), X(:, k))' * ...
+        log_map(D(:, j), X(:, k)));
+    end
+  end
+end
+
 while 1 
-  new_W = update_weights(W, D, X, eta);
+  update_W = update_weights(W, atom_logs);
+  new_W = W - (update_W * eta);
   new_cost = cost_dict_learning(new_W, D, X);
 
-  if (cur_cost < new_cost)
+  while (cur_cost < new_cost)
     eta = eta_dec_factor * eta;
-  elseif ((cur_cost - new_cost) > (thresh_factor * cur_cost))
+    new_W = W - (update_W * eta);
+    new_cost = cost_dict_learning(new_W, D, X);
+  end
+  
+  if ((cur_cost - new_cost) > (thresh_factor * cur_cost))
     W = new_W;
     cur_cost = new_cost;
     eta = eta_inc_factor * eta;

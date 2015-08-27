@@ -8,5 +8,6 @@ function log_map = log_map( arg, base )
 
 dot = arg' * base;
 dir = arg - (base * dot);
-log_map = dir * (my_acos(dot) * my_inv(norm(dir)));
+log_map = dir * ...
+  acos(sign(dot) * min(abs(dot), 1)) / max(norm(dir), 1.0e-10);
 end

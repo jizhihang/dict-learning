@@ -42,7 +42,8 @@ parfor k = 1:m
     G_i = (E_i' * log) * my_inv(arccos);
     
     vec = (((F_i * arccos) - (log * G_i)) * my_inv(dist)) - ...
-      (X(:, i) * (((W(k, i) * arccos) + G_i) * my_inv(sqrt(1 - dot^2))));
+      (X(:, i) * (((W(k, i) * arccos) + G_i) * ...
+      my_inv(sqrt(max(0, 1 - dot^2)))));
     
     update_D(:, k) = ...
       update_D(:, k) + (vec * (2 * W(k, i)));

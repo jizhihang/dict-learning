@@ -1,7 +1,6 @@
+% GLOBALS Declarations and definitions of global variables
 %   This script declares and defines the global variables used by the
-%   functions in this project. The script must be run prior to running
-%   dict_learning or any of the other functions that uses any of the values
-%   defined in this script.
+%   functions in this project.
 
 %LAMBDA Regularization parameter in dictionary learning cost function
 %   This variable defines the regularization parameter of the cost function

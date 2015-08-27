@@ -1,4 +1,4 @@
-function updated_W = sparse_coding( W, D, X )
+function new_W = sparse_coding( W, D, X )
 %SPARSE_CODING Learns the best dictionary weights for the inputs
 %   This function performs gradient descent to optimize the weights of the
 %   inputs with respect to the dictionary. The underlying cost function is
@@ -11,8 +11,8 @@ d = size(D, 1);
 m = size(D, 2);
 n = size(X, 2);
 
-cur_cost = cost_dict_learning(W, D, X);
 eta = init_eta;
+cur_cost = cost_dict_learning(W, D, X);
 
 atom_logs = zeros(m, m, n);
 
@@ -37,13 +37,11 @@ while 1
   end
   
   if ((cur_cost - new_cost) > (thresh_factor * cur_cost))
+    eta = eta_inc_factor * eta;
     W = new_W;
     cur_cost = new_cost;
-    eta = eta_inc_factor * eta;
   else
     break;
   end
 end
-
-updated_W = new_W;
 end

@@ -1,4 +1,4 @@
-function updated_D = codebook_optimization( W, D, X )
+function new_D = codebook_optimization( W, D, X )
 %CODEBOOK_OPTIMIZATION Updates the dictionary
 %   This function updates the dictionary atoms so as to be better able to
 %   represent the inputs. We perform gradient descent on the dictionary;
@@ -7,8 +7,8 @@ function updated_D = codebook_optimization( W, D, X )
 
 global init_eta eta_dec_factor eta_inc_factor thresh_factor
 
-cur_cost = cost_dict_learning(W, D, X);
 eta = init_eta;
+cur_cost = cost_dict_learning(W, D, X);
 
 while 1 
   update_D = update_atoms_global(W, D, X);
@@ -22,13 +22,11 @@ while 1
   end
   
   if ((cur_cost - new_cost) > (thresh_factor * cur_cost))
+    eta = eta_inc_factor * eta;
     D = new_D;
     cur_cost = new_cost;
-    eta = eta_inc_factor * eta;
   else
     break;
   end
 end
-
-updated_D = new_D;
 end

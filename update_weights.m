@@ -1,4 +1,4 @@
-function update_W = update_weights( W, atom_logs )
+function update_W = update_weights( W, logs )
 %UPDATE_WEIGHTS Updates the dictionary weights of the inputs
 %   This function computes the gradient of the cost function defined in
 %   cost_dict_learning.m with respect to the weights, and is used along
@@ -19,7 +19,15 @@ n = size(W, 2);
 update_W = (arrayfun(@(x) diff_huber(x), W) * lambda);
 
 parfor i = 1:n
-  update_W(:, i) = update_W(:, i) + (atom_logs(:, :, i) * W(:, i));
+  atom_logs = zeros(m, m);
+  
+  for j = 1:m
+    for k = 1:m
+      atom_logs(j, k) = 2 * (logs(j, i)' * logs(k, i));
+    end
+  end
+  
+  update_W(:, i) = update_W(:, i) + (atom_logs * W(:, i));
   update_W(:, i) = update_W(:, i) - (sum(update_W(:, i)) / m);
 end
 end

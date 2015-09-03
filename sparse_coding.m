@@ -14,19 +14,16 @@ n = size(X, 2);
 eta = init_eta;
 cur_cost = cost_dict_learning(W, D, X);
 
-atom_logs = zeros(m, m, n);
+logs = zeros(d, m, n);
 
-parfor k = 1:n
+parfor j = 1:n
   for i = 1:m
-    for j = 1:m
-      atom_logs(i, j, k) = 2 * (log_map(D(:, i), X(:, k))' * ...
-        log_map(D(:, j), X(:, k)));
-    end
+    logs(:, i, j) = log_map(D(:, i), X(:, j));
   end
 end
 
 while 1 
-  update_W = update_weights(W, atom_logs);
+  update_W = update_weights(W, logs);
   new_W = W - (update_W * eta);
   new_cost = cost_dict_learning(new_W, D, X);
 

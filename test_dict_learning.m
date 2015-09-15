@@ -1,13 +1,10 @@
-d = 10;
-n = 100;
+d = 3;
+n = 1000;
 m = d;
 X = zeros(d, n);
 
 parfor i = 1:n
-  I = eye(m);
-  dim = randi(m);
+  I = eye(d);
+  dim = randi(d);
   X(:, i) = normc((I(:, dim) * 5) + rand(d, 1) - 0.5);
 end
-
-[W, D] = dict_learning(X, m);
-new_X = normc(D * W);

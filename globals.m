@@ -2,6 +2,16 @@
 %   This script declares and defines the global variables used by the
 %   functions in this project.
 
+%NORM_P, NORM_Q Parameters of norm used in dictionary learning cost function
+%   These variables specify the norm to be applied to the weights matrix in
+%   computing the cost function for dictionary learning, which captures a
+%   notion of sparsity of the coding of any input in terms of the
+%   dictionary atoms.
+
+global norm_p norm_q
+norm_p = 1;
+norm_q = 1;
+
 %LAMBDA Regularization parameter in dictionary learning cost function
 %   This variable defines the regularization parameter of the cost function
 %   used in the dictionary learning process, the coefficient of the l1 norm
@@ -9,14 +19,14 @@
 %   cost function (cost_dict_learning) and its derivative with respect to
 %   the weights (update_weights).
 
-global lambda;
+global lambda
 lambda = 10;
 
 %INIT_ETA Initial value of the learning rate for gradient descent
 %   We implement gradient descent with a variable learning rate (eta). The
 %   variable init_eta defines the initial value of eta.
 
-global init_eta;
+global init_eta
 init_eta = 0.01;
 
 %ETA_DEC_FACTOR Downward scaling of learning rate in case of failure
@@ -25,7 +35,7 @@ init_eta = 0.01;
 %   not taken, and the value of eta is instead scaled by a factor of
 %   eta_dec_factor (which must, of course, lie strictly between 0 and 1).
 
-global eta_dec_factor;
+global eta_dec_factor
 eta_dec_factor = 0.5;
 
 %ETA_INC_FACTOR Upward scaling of learning rate in case of success
@@ -33,7 +43,7 @@ eta_dec_factor = 0.5;
 %   eta is scaled by a factor of eta_inc_factor (which should be at least
 %   1).
 
-global eta_inc_factor;
+global eta_inc_factor
 eta_inc_factor = 1.2;
 
 %THRESH_FACTOR Termination condition for gradient descent
@@ -42,5 +52,5 @@ eta_inc_factor = 1.2;
 %   of the cost function resulting from an update is less than
 %   thresh_factor of its current value.
 
-global thresh_factor;
+global thresh_factor
 thresh_factor = 0.01;

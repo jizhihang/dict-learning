@@ -1,4 +1,4 @@
-function [ W, D ] = dict_learning( X, m )
+function [ W, D ] = dict_learning( X, m, p, q )
 %DICT_LEARNING Learns a sparse dictionary representation of the input
 %   This function combines the sparse coding and codebook optimization
 %   processes (performing each one after the other until convergence) in
@@ -12,7 +12,9 @@ function [ W, D ] = dict_learning( X, m )
 %   function over the course of the algorithm, up to convergence.
 
 globals
-global thresh_factor
+global norm_p norm_q thresh_factor
+norm_p = p;
+norm_q = q;
 
 D = k_means_clustering(X, m);
 W = init_weights(D, X);

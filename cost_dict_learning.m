@@ -11,7 +11,7 @@ function cost = cost_dict_learning( W, D, X )
 %   inputs. The regularization parameter for the l1 norm of the weight
 %   matrix is set to 10.
 
-global lambda
+global norm_p norm_q lambda
 
 d = size(X, 1);
 m = size(D, 2);
@@ -29,5 +29,7 @@ parfor i = 1:n
   costs(i) = norm(dist)^2;
 end
 
-cost = (norm(W, 1) * lambda) + sum(costs);
+cost = sum(costs) + (lambda * sum(arrayfun(@(x) x^(1/norm_q), ...
+  sum(arrayfun(@(x) abs(x)^norm_p, W)))));
+
 end

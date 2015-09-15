@@ -1,4 +1,4 @@
-function update_W = update_weights( W, logs )
+function update_W = update_weights( W, D, X )
 %UPDATE_WEIGHTS Updates the dictionary weights of the inputs
 %   This function computes the gradient of the cost function defined in
 %   cost_dict_learning.m with respect to the weights, and is used along
@@ -11,19 +11,30 @@ function update_W = update_weights( W, logs )
 %   function. The sum of the weights of any input must also be normalized
 %   to 1.
 
-global lambda
+global norm_p norm_q
+p = norm_p;
+q = norm_q;
 
 m = size(W, 1);
 n = size(W, 2);
 
-update_W = (arrayfun(@(x) diff_huber(x), W) * lambda);
+update_W = zeros(m, n);
+
+parfor i = 1:n
+  N = p * (norm(W(:, i), p)^(p * ((1 / q) - 1))) / q;
+  
+  for j = 1:m
+    update_W(j, i) = N * diff_huber(W(j, i)) / (abs(W(j, i))^(1 - p));
+  end
+end
 
 parfor i = 1:n
   atom_logs = zeros(m, m);
   
   for j = 1:m
     for k = 1:m
-      atom_logs(j, k) = 2 * (logs(j, i)' * logs(k, i));
+      atom_logs(j, k) = 2 * (log_map(D(:, j), X(:, i))' * ...
+        log_map(D(:, k), X(:, i)));
     end
   end
   

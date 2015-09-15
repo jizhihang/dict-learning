@@ -7,23 +7,11 @@ function new_W = sparse_coding( W, D, X )
 
 global init_eta eta_dec_factor eta_inc_factor thresh_factor
 
-d = size(D, 1);
-m = size(D, 2);
-n = size(X, 2);
-
 eta = init_eta;
 cur_cost = cost_dict_learning(W, D, X);
 
-logs = zeros(d, m, n);
-
-parfor j = 1:n
-  for i = 1:m
-    logs(:, i, j) = log_map(D(:, i), X(:, j));
-  end
-end
-
 while 1 
-  update_W = update_weights(W, logs);
+  update_W = update_weights(W, D, X);
   new_W = W - (update_W * eta);
   new_cost = cost_dict_learning(new_W, D, X);
 

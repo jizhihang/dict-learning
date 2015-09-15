@@ -1,6 +1,6 @@
 function [ ] = reconstruct_image( in_name, out_name )
 patch_size = 5;
-var_thresh = 10;
+var_thresh = 2500;
 
 half = (patch_size - 1) / 2;
 I = double(imread(in_name));
@@ -35,7 +35,7 @@ for i = (1 + half):(x - half)
 end
 
 X = X(:, 1:counter);
-[W, D] = dict_learning(X, 50);
+[W, D] = dict_learning(X, 25);
 new_X = normc(D * W);
 
 count = zeros(x, y);

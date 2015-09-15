@@ -11,19 +11,11 @@ d = size(D, 1);
 m = size(D, 2);
 n = size(X, 2);
 
-logs = zeros(d, m, n);
-
-parfor j = 1:n
-  for i = 1:m
-    logs(:, i, j) = log_map(D(:, i), X(:, j));
-  end
-end
-
 w_logs = zeros(d, n);
 
 parfor i = 1:n
   for j = 1:m
-    w_logs(:, i) = w_logs(:, i) + (logs(:, j, i) * W(j, i));
+    w_logs(:, i) = w_logs(:, i) + (log_map(D(:, j), X(:, i)) * W(j, i));
   end
 end
 
@@ -35,7 +27,7 @@ parfor k = 1:m
     arccos = my_acos(dot);
     dir = D(:, k) - (X(:, i) * dot);
     dist = norm(dir);
-    log = logs(:, k, i);
+    log = log_map(D(:, k), X(:, i));
     
     E_i = w_logs(:, i) - (W(k, i) * log);
     F_i = E_i - (X(:, i) * (E_i' * X(:, i)));

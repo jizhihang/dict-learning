@@ -1,5 +1,5 @@
-function [ W, D ] = dict_learning( X, m, p, q )
-%DICT_LEARNING Learns a sparse dictionary representation of the input
+function [ W, D ] = dict_learning_sc( X, m, lam, p )
+%DICT_LEARNING_SC Learns a sparse dictionary representation of the input
 %   This function combines the sparse coding and codebook optimization
 %   processes (performing each one after the other until convergence) in
 %   order to learn a sparse dictionary representation of the input, of a
@@ -8,17 +8,16 @@ function [ W, D ] = dict_learning( X, m, p, q )
 %   The algorithm initializes the dictionary using the k-means clustering
 %   algorithm, and the weights using the procedure defined in
 %   init_weights.m. The cost function used is the one defined and
-%   implemented in cost_dict_learning.m. In addition, we graph the cost
-%   function over the course of the algorithm, up to convergence.
+%   implemented in cost_sc.m.
 
 globals
-global norm_p norm_q thresh_factor
+global lambda norm_p thresh_factor
+lambda = lam;
 norm_p = p;
-norm_q = q;
 
 D = k_means_clustering(X, m);
 W = init_weights(D, X);
-cur_cost = cost_dict_learning(W, D, X);
+cur_cost = cost_sc(W, D, X);
 
 %   Uncomment to plot cost function over iterations upto convergence
 %{
@@ -29,8 +28,8 @@ index = 1;
 
 while 1 
   W = sparse_coding(W, D, X);
-  D = codebook_optimization(W, D, X);
-  new_cost = cost_dict_learning(W, D, X);
+  D = codebook_opt_sc(W, D, X);
+  new_cost = cost_sc(W, D, X);
 
   if ((cur_cost - new_cost) > (thresh_factor * cur_cost))
     cur_cost = new_cost;

@@ -1,11 +1,7 @@
-function update_D = update_atoms_global( W, D, X )
-%UPDATE_ATOMS_GLOBAL Computes the gradient for codebook optimization
-%   This function computes the gradient for the cost function computed in
-%   cost_dict_learning.m with respect to the dictionary atoms. The output
-%   is used in performing gradient descent on the dictionary atoms in the
-%   codebook optimization stage of the sparse dictionary learning process,
-%   implemented in codebook_optimization.m. The updated atoms are
-%   normalized to ensure that they lie on the unit sphere.
+function update_D = update_atoms_reconstruction( W, D, X )
+%UPDATE_ATOMS_RECONSTRUCTION Gradient of atoms w.r.t. reconstruction term
+%   This function evaluates the gradient of the atoms with respect to the
+%   reconstruction term defined in cost_reconstruction.m.
 
 d = size(D, 1);
 m = size(D, 2);
@@ -37,8 +33,7 @@ parfor k = 1:m
       (X(:, i) * (((W(k, i) * arccos) + G_i) * ...
       my_inv(sqrt(max(0, 1 - dot^2)))));
     
-    update_D(:, k) = ...
-      update_D(:, k) + (vec * (2 * W(k, i)));
+    update_D(:, k) = update_D(:, k) + (vec * (2 * W(k, i)));
   end
 end
 end

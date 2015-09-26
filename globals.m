@@ -2,25 +2,30 @@
 %   This script declares and defines the global variables used by the
 %   functions in this project.
 
-%NORM_P, NORM_Q Parameters of norm used in dictionary learning cost function
-%   These variables specify the norm to be applied to the weights matrix in
+%LAMBDA Regularization parameter in dictionary learning cost function
+%   This variable defines the regularization parameter of the cost function
+%   used in the dictionary learning process. It is used by the functions
+%   that evaluate this cost function and its gradients.
+
+global lambda
+lambda = 10;
+
+%NORM_P Parameter of norm used in sparse dictionary learning cost
+%   This variable specifies the norm to be applied to the weights matrix in
 %   computing the cost function for dictionary learning, which captures a
 %   notion of sparsity of the coding of any input in terms of the
 %   dictionary atoms.
 
-global norm_p norm_q
+global norm_p
 norm_p = 1;
-norm_q = 1;
 
-%LAMBDA Regularization parameter in dictionary learning cost function
-%   This variable defines the regularization parameter of the cost function
-%   used in the dictionary learning process, the coefficient of the l1 norm
-%   of the weights matrix. It is used by the functions that evaluate this
-%   cost function (cost_dict_learning) and its derivative with respect to
-%   the weights (update_weights).
+%SIGMA Parameter of the locality constraint in the dictionary learning cost
+%   This variable specifies the scale factor applied to the distance
+%   between the inputs and the dictionary atoms. A larger value more
+%   heavily penalizes large weights for faraway atoms.
 
-global lambda
-lambda = 10;
+global sigma
+sigma = 1;
 
 %INIT_ETA Initial value of the learning rate for gradient descent
 %   We implement gradient descent with a variable learning rate (eta). The

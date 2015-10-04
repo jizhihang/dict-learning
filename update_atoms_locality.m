@@ -6,7 +6,6 @@ function update_D = update_atoms_locality( W, D, X )
 global sigma
 sig = sigma;
 
-d = size(D, 1);
 m = size(D, 2);
 n = size(X, 2);
 
@@ -14,12 +13,11 @@ C = zeros(n, m);
 
 parfor i = 1:n
   for j = 1:m
-    diff = X(:, i) - D(:, j);
-    mag = norm(diff);
-    C(i, j) = - 2 * sig * W(j, i)^2 * exp(2 * sig * mag) / mag;
+    dot = X(:, i)' * D(:, j);
+    C(i, j) = - 2 * sig * W(j, i)^2 * ...
+      exp(2 * sig * my_acos(dot)) * my_inv(my_sqrt(1 - dot^2));
   end
 end
 
-update_D = (X * C) - (repmat(sum(C), d, 1) .* D);
+update_D = (X * C);
 end
-

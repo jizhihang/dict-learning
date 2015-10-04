@@ -13,8 +13,8 @@ update_W = zeros(m, n);
 
 parfor i = 1:n
   for j = 1:m
-    update_W(j, i) = 2 * W(j, i) * exp(2 * sig * norm(X(:, i) - D(:, j)));
+    update_W(j, i) = 2 * W(j, i) * ...
+      exp(2 * sig * my_acos(X(:, i)' * D(:, j)));
   end
 end
 end
-

@@ -15,8 +15,8 @@ update_W = zeros(m, n);
 
 parfor i = 1:n
   for j = 1:m
-    update_W(j, i) = p * diff_huber(W(j, i)) / (abs(W(j, i))^(1 - p));
+    update_W(j, i) = p * diff_huber(W(j, i)) * ...
+      my_inv(abs(W(j, i))^(1 - p));
   end
 end
 end
-

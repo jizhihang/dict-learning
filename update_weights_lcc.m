@@ -12,6 +12,7 @@ function update_W = update_weights_lcc( W, D, X )
 
 global lambda
 
+m = size(W, 1);
 n = size(W, 2);
 
 update_W = update_weights_reconstruction(W, D, X) + ...
@@ -21,4 +22,3 @@ parfor i = 1:n
   update_W(:, i) = update_W(:, i) - (sum(update_W(:, i)) / m);
 end
 end
-

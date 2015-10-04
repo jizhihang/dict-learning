@@ -16,7 +16,7 @@ costs = zeros(1, n);
 parfor i = 1:n
   for j = 1:m
     costs(i) = costs(i) + ...
-      (W(j, i)^2 * exp(2 * sig * norm(X(:, i) - D(:, j))));
+      (W(j, i)^2 * exp(2 * sig * my_acos(X(:, i)' * D(:, j))));
   end
 end
 

@@ -12,6 +12,7 @@ function update_W = update_weights_sc( W, D, X )
 
 global lambda
 
+m = size(W, 1);
 n = size(W, 2);
 
 update_W = update_weights_reconstruction(W, D, X) + ...

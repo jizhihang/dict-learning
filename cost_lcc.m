@@ -1,4 +1,4 @@
-function cost = cost_lcc( W, D, X )
+function cost = cost_lcc( W, U, G )
 %COST_LCC Cost function for dictionary learning
 %   This function implements the cost function for locality constrained
 %   dictionary learning. This, along with its gradient (computed in
@@ -11,5 +11,5 @@ function cost = cost_lcc( W, D, X )
 
 global lambda
 
-cost = cost_reconstruction(W, D, X) + (lambda * cost_locality(W, D, X));
+cost = cost_reconstruction(W, U, G) + (lambda * cost_locality(W, U, G));
 end

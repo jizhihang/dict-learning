@@ -1,4 +1,4 @@
-function update_W = update_weights_sc( W, D, X )
+function update_W = update_weights_sc( W, U, G )
 %UPDATE_WEIGHTS_SC Updates the dictionary weights of the inputs
 %   This function computes the gradient of the cost function defined in
 %   cost_sc.m with respect to the weights, and is used along with it in
@@ -15,7 +15,7 @@ global lambda
 m = size(W, 1);
 n = size(W, 2);
 
-update_W = update_weights_reconstruction(W, D, X) + ...
+update_W = update_weights_reconstruction(W, U, G) + ...
   (lambda * update_weights_sparsity(W));
 
 parfor i = 1:n

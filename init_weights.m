@@ -1,4 +1,4 @@
-function weights = init_weights( D, X )
+function weights = init_weights( U, G )
 %INIT_WEIGHTS Initializes the weights for dictionary learning
 %   This function is used to initialize the weights learned by the
 %   dictionary learning process, As the underlying cost function involves a
@@ -6,13 +6,11 @@ function weights = init_weights( D, X )
 %   the weights in inverse proportion to the norms of the log maps,
 %   normalized to sum to 1 (as required by the algorithm).
 
-m = size(D, 2);
-n = size(X, 2);
+n = size(U, 1);
 
-weights = zeros(m, n);
+weights = arrayfun(@(x) my_inv(my_acos(x)), U' * G);
 
 parfor i = 1:n
-  weights(:, i) = arrayfun(@(x) my_inv(my_acos(D(:, x)' * X(:, i))), 1:m);
-  weights(:, i) = weights(:, i) / sum(weights(:, i));
+  weights(:, i) = weights(:, i) * my_inv(sum(weights(:, i)));
 end
 end

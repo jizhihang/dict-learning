@@ -1,4 +1,4 @@
-function update_D = update_atoms_lcc( W, D, X )
+function update_U = update_atoms_lcc( W, U, G )
 %UPDATE_ATOMS_LCC Updates the dictionary atoms
 %   This function computes the gradient of the cost function defined in
 %   cost_lcc.m with respect to the atoms, and is used along with it in
@@ -11,6 +11,6 @@ function update_D = update_atoms_lcc( W, D, X )
 
 global lambda
 
-update_D = update_atoms_reconstruction(W, D, X) + ...
-  (lambda * update_atoms_locality(W, D, X));
+update_U = update_atoms_reconstruction(W, U, G) + ...
+  (lambda * update_atoms_locality(W, U, G));
 end

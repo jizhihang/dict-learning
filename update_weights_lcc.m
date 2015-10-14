@@ -1,4 +1,4 @@
-function update_W = update_weights_lcc( W, D, X )
+function update_W = update_weights_lcc( W, U, G )
 %UPDATE_WEIGHTS_LCC Updates the dictionary weights of the inputs
 %   This function computes the gradient of the cost function defined in
 %   cost_lcc.m with respect to the weights, and is used along with it in
@@ -15,8 +15,8 @@ global lambda
 m = size(W, 1);
 n = size(W, 2);
 
-update_W = update_weights_reconstruction(W, D, X) + ...
-  (lambda * update_weights_locality(W, D, X));
+update_W = update_weights_reconstruction(W, U, G) + ...
+  (lambda * update_weights_locality(W, U, G));
 
 parfor i = 1:n
   update_W(:, i) = update_W(:, i) - (sum(update_W(:, i)) / m);

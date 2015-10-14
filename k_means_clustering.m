@@ -1,4 +1,4 @@
-function D = k_means_clustering( X, m )
+function U = k_means_clustering( G, m )
 %K_MEANS_CLUSTERING Computes a clustering dictionary for a given input
 %   This function implements the k-means clustering algorithm, determining
 %   a set of atoms of given size so as to minimize the least distance of
@@ -12,14 +12,14 @@ function D = k_means_clustering( X, m )
 
 global thresh_factor
 
-D = farthest_point_clustering(X, m);
-L = k_means_labeling(X, D);
-cur_cost = cost_clustering(X, D, L);
+U = farthest_point_clustering(G, m);
+L = k_means_labeling(G, U);
+cur_cost = cost_clustering(G, U, L);
 
 while 1 
-  D = k_means_averaging(X, D, L);
-  L = k_means_labeling(X, D);
-  new_cost = cost_clustering(X, D, L);
+  U = k_means_averaging(G, U, L);
+  L = k_means_labeling(G, U);
+  new_cost = cost_clustering(G, U, L);
 
   if ((cur_cost - new_cost) > (thresh_factor * cur_cost))
     cur_cost = new_cost;

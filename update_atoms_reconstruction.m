@@ -1,39 +1,32 @@
-function update_D = update_atoms_reconstruction( W, D, X )
+function update_U = update_atoms_reconstruction( W, U, G )
 %UPDATE_ATOMS_RECONSTRUCTION Gradient of atoms w.r.t. reconstruction term
 %   This function evaluates the gradient of the atoms with respect to the
 %   reconstruction term defined in cost_reconstruction.m.
 
-d = size(D, 1);
-m = size(D, 2);
-n = size(X, 2);
+m = size(W, 1);
+n = size(W, 2);
 
-w_logs = zeros(d, n);
+update_U = zeros(n, m);
 
-parfor i = 1:n
-  for j = 1:m
-    w_logs(:, i) = w_logs(:, i) + (log_map(D(:, j), X(:, i)) * W(j, i));
-  end
-end
+M = G * U;
+N = U' * M;
 
-update_D = zeros(d, m);
-
-parfor k = 1:m
-  for i = 1:n
-    dot = (D(:, k)' * X(:, i));
-    arccos = my_acos(dot);
-    dir = D(:, k) - (X(:, i) * dot);
-    dist = norm(dir);
-    log = log_map(D(:, k), X(:, i));
-    
-    E_i = w_logs(:, i) - (W(k, i) * log);
-    F_i = E_i - (X(:, i) * (E_i' * X(:, i)));
-    G_i = (E_i' * log) * my_inv(arccos);
-    
-    vec = (((F_i * arccos) - (log * G_i)) * my_inv(dist)) - ...
-      (X(:, i) * (((W(k, i) * arccos) + G_i) * ...
-      my_inv(my_sqrt(1 - dot^2))));
-    
-    update_D(:, k) = update_D(:, k) + (vec * (2 * W(k, i)));
+for p = 1:n
+  for q = 1:m
+    for i = 1:n
+      A = M(p, :) - (G(i, p) * M(i, :));
+      B = N(q, :) - (M(i, q) * M(i, :));
+      
+      ac = arrayfun(@(x) my_acos(x), M(i, :));
+      ri = arrayfun(@(x) my_inv(my_sqrt(1 - x^2)), M(i, :));
+      cd = ac .* ri;
+      C = G(i, p) * ((ac(q) * ri(q) * M(i, q)) - 1) * ri(q)^2 * cd;
+      D = ac(q) * ri(q) * cd;
+      
+      E = (A .* D) + (B .* C);
+      
+      update_U(p, q) = update_U(p, q) + (2 * W(q, i) * E' * W(:, i));
+    end
   end
 end
 end

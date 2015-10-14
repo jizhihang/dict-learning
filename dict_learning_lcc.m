@@ -1,4 +1,4 @@
-function [ W, D ] = dict_learning_lcc( X, m, lam, sig )
+function [ W, U ] = dict_learning_lcc( G, m, lam, sig )
 %DICT_LEARNING_LCC Learns a locality constrained dictionary representation
 %of the input
 %   This function combines the locality constrained coding and codebook
@@ -16,9 +16,9 @@ global lambda sigma thresh_factor
 lambda = lam;
 sigma = sig;
 
-D = k_means_clustering(X, m);
-W = init_weights(D, X);
-cur_cost = cost_lcc(W, D, X);
+U = k_means_clustering(G, m);
+W = init_weights(U, G);
+cur_cost = cost_lcc(W, U, G);
 
 %   Uncomment to plot cost function over iterations upto convergence
 %{
@@ -28,9 +28,9 @@ index = 1;
 %}
 
 while 1 
-  W = locality_constrained_coding(W, D, X);
-  D = codebook_opt_lcc(W, D, X);
-  new_cost = cost_lcc(W, D, X);
+  W = locality_constrained_coding(W, U, G);
+  U = codebook_opt_lcc(W, U, G);
+  new_cost = cost_lcc(W, U, G);
 
   if ((cur_cost - new_cost) > (thresh_factor * cur_cost))
     cur_cost = new_cost;

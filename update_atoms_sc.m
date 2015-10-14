@@ -1,4 +1,4 @@
-function update_D = update_atoms_sc( W, D, X )
+function update_U = update_atoms_sc( W, U, G )
 %UPDATE_ATOMS_SC Updates the dictionary atoms
 %   This function computes the gradient of the cost function defined in
 %   cost_sc.m with respect to the atoms, and is used along with it in order
@@ -10,5 +10,5 @@ function update_D = update_atoms_sc( W, D, X )
 %   and the gradient of the reconstruction term is computed in
 %   update_atoms_reconstruction.m.
 
-update_D = update_atoms_reconstruction(W, D, X);
+update_U = update_atoms_reconstruction(W, U, G);
 end

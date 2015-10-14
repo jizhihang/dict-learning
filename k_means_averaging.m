@@ -1,4 +1,4 @@
-function new_D = k_means_averaging( X, D, L )
+function new_U = k_means_averaging( G, U, L )
 % K_MEANS_AVERAGING Optimizes the clustering dictionary
 %   This function optimizes the dictionary atoms given a labelling of the
 %   inputs. This amounts to centering each atom in its cluster of inputs.
@@ -9,22 +9,22 @@ function new_D = k_means_averaging( X, D, L )
 global init_eta eta_dec_factor eta_inc_factor thresh_factor
 
 eta = init_eta;
-cur_cost = cost_clustering(X, D, L);
+cur_cost = cost_clustering(G, U, L);
 
 while 1 
-  update_D = update_atoms_cluster(X, D, L);
-  new_D = normc(D - (update_D * eta));
-  new_cost = cost_clustering(X, new_D, L);
+  update_U = update_atoms_cluster(G, U, L);
+  new_U = normu(U - (update_U * eta));
+  new_cost = cost_clustering(G, new_U, L);
 
   while (cur_cost < new_cost)
     eta = eta_dec_factor * eta;
-    new_D = normc(D - (update_D * eta));
-    new_cost = cost_clustering(X, new_D, L);
+    new_U = normu(U - (update_U * eta));
+    new_cost = cost_clustering(G, new_U, L);
   end
   
   if ((cur_cost - new_cost) > (thresh_factor * cur_cost))
     eta = eta_inc_factor * eta;
-    D = new_D;
+    U = new_U;
     cur_cost = new_cost;
   else
     break;

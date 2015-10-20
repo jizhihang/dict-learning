@@ -13,12 +13,12 @@ cur_cost = cost_clustering(G, U, L);
 
 while 1 
   update_U = update_atoms_cluster(G, U, L);
-  new_U = normu(U - (update_U * eta));
+  new_U = normu(U - (update_U * eta), G);
   new_cost = cost_clustering(G, new_U, L);
 
   while (cur_cost < new_cost)
     eta = eta_dec_factor * eta;
-    new_U = normu(U - (update_U * eta));
+    new_U = normu(U - (update_U * eta), G);
     new_cost = cost_clustering(G, new_U, L);
   end
   

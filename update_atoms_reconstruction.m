@@ -10,23 +10,19 @@ update_U = zeros(n, m);
 
 M = G * U;
 N = U' * M;
+P = arrayfun(@(x) my_acos(x) * my_inv(my_sqrt(1 - x^2)), M);
+WP = W .* P';
 
-for p = 1:n
-  for q = 1:m
-    for i = 1:n
-      A = M(p, :) - (G(i, p) * M(i, :));
-      B = N(q, :) - (M(i, q) * M(i, :));
-      
-      ac = arrayfun(@(x) my_acos(x), M(i, :));
-      ri = arrayfun(@(x) my_inv(my_sqrt(1 - x^2)), M(i, :));
-      cd = ac .* ri;
-      C = G(i, p) * ((ac(q) * ri(q) * M(i, q)) - 1) * ri(q)^2 * cd;
-      D = ac(q) * ri(q) * cd;
-      
-      E = (A .* D) + (B .* C);
-      
-      update_U(p, q) = update_U(p, q) + (2 * W(q, i) * E' * W(:, i));
-    end
+for i = 1:n
+  GM = G(:, i) * M(i, :);
+  
+  parfor q = 1:m
+    g = ((P(i, q) * M(i, q)) - 1) * my_inv(1 - M(i, q)^2);
+    B = (P(i, q) * M) + (g * G(:, i) * N(q, :)) - ...
+      ((P(i, q) + (g * M(i, q))) * GM);
+
+    update_U(:, q) = update_U(:, q) + ...
+      (2 * W(q, i) * B * WP(:, i));
   end
 end
 end

@@ -17,39 +17,24 @@ norm_p = p;
 
 U = k_means_clustering(G, m);
 W = init_weights(U, G);
-cur_cost = cost_sc(W, U, G);
+L = atom_log_product(U, G);
+cur_cost = cost_sc(W, L);
 
-%   Uncomment to plot cost function over iterations upto convergence
-%{
-costs = zeros(1, 10000);
-costs(1) = cur_cost;
-index = 1;
-%}
-
-while 1 
-  W = sparse_coding(W, U, G);
-  U = codebook_opt_sc(W, U, G);
-  new_cost = cost_sc(W, U, G);
+while 1
+  [W, new_cost] = sparse_coding(W, L, cur_cost);
 
   if ((cur_cost - new_cost) > (thresh_factor * cur_cost))
     cur_cost = new_cost;
-
-    %{
-    if (index == size(costs, 2))
-      costs = [costs zeros(1, 10000)];
-    end
-    
-    index = index + 1;
-    costs(index) = cur_cost;
-    %}
+  else
+    break;
+  end
+  
+  [U, L, new_cost] = codebook_opt_sc(W, U, G, cur_cost);
+  
+  if ((cur_cost - new_cost) > (thresh_factor * cur_cost))
+    cur_cost = new_cost;
   else
     break;
   end
 end
-
-%{
-figure(1); clf();
-plot(costs(1, 1:index));
-legend('cost');
-%}
 end

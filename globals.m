@@ -32,7 +32,7 @@ sigma = 1;
 %   variable init_eta defines the initial value of eta.
 
 global init_eta
-init_eta = 0.01;
+init_eta = 0.001;
 
 %ETA_DEC_FACTOR Downward scaling of learning rate in case of failure
 %   Over the course of gradient descent, whenever the computed update would
@@ -41,7 +41,7 @@ init_eta = 0.01;
 %   eta_dec_factor (which must, of course, lie strictly between 0 and 1).
 
 global eta_dec_factor
-eta_dec_factor = 0.5;
+eta_dec_factor = 0.1;
 
 %ETA_INC_FACTOR Upward scaling of learning rate in case of success
 %   Whenever a valid update is found, the step is taken, and the value of
@@ -49,7 +49,7 @@ eta_dec_factor = 0.5;
 %   1).
 
 global eta_inc_factor
-eta_inc_factor = 1.2;
+eta_inc_factor = 1.1;
 
 %THRESH_FACTOR Termination condition for gradient descent
 %   This variable describes the termination condition for our gradient

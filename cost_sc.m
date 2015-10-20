@@ -1,4 +1,4 @@
-function cost = cost_sc( W, U, G )
+function cost = cost_sc( W, L )
 %COST_SC Cost function for dictionary learning
 %   This function implements the cost function for sparse dictionary
 %   learning. This, along with its gradient (computed in update_atoms_sc.m)
@@ -10,5 +10,5 @@ function cost = cost_sc( W, U, G )
 
 global lambda
 
-cost = cost_reconstruction(W, U, G) + (lambda * cost_sparsity(W));
+cost = cost_reconstruction(W, L) + (lambda * cost_sparsity(W));
 end

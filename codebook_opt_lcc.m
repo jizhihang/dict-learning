@@ -13,13 +13,13 @@ cur_cost = C;
 while 1 
   update_U = update_atoms_lcc(W, U, G);
   new_U = normu(U - (update_U * eta), G);
-  new_L = atom_log_product(U, G);
+  new_L = atom_log_product(new_U, G);
   new_cost = cost_lcc(W, new_U, G, new_L);
 
   while (cur_cost < new_cost)
     eta = eta_dec_factor * eta;
     new_U = normu(U - (update_U * eta), G);
-    new_L = atom_log_product(U, G);
+    new_L = atom_log_product(new_U, G);
     new_cost = cost_lcc(W, new_U, G, new_L);
   end
   

@@ -32,7 +32,7 @@ sigma = 1;
 %   variable init_eta defines the initial value of eta.
 
 global init_eta
-init_eta = 0.001;
+init_eta = 0.01;
 
 %ETA_DEC_FACTOR Downward scaling of learning rate in case of failure
 %   Over the course of gradient descent, whenever the computed update would

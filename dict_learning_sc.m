@@ -11,7 +11,7 @@ function [ W, U ] = dict_learning_sc( G, m, lam, p )
 %   implemented in cost_sc.m.
 
 globals
-global lambda norm_p thresh_factor
+global lambda norm_p thresh_factor max_iter
 lambda = lam;
 norm_p = p;
 
@@ -20,7 +20,7 @@ W = init_weights(U, G);
 L = atom_log_product(U, G);
 cur_cost = cost_sc(W, L);
 
-while 1
+for i = 1:max_iter
   [W, new_cost] = sparse_coding(W, L, cur_cost);
 
   if ((cur_cost - new_cost) > (thresh_factor * cur_cost))

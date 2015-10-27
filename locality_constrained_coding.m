@@ -6,17 +6,21 @@ function [ new_W, new_cost ] = locality_constrained_coding( W, U, G, L, C )
 %   computed in cost_lcc.m, and its gradient is computed in
 %   update_weights_lcc.m.
 
-global init_eta eta_dec_factor eta_inc_factor thresh_factor
+global init_eta eta_dec_factor eta_inc_factor thresh_factor max_iter
 
 eta = init_eta;
 cur_cost = C;
 
-while 1 
+for i = 1:max_iter
   update_W = update_weights_lcc(W, U, G, L);
   new_W = W - (update_W * eta);
   new_cost = cost_lcc(new_W, U, G, L);
 
-  while (cur_cost < new_cost)
+  for j = 1:max_iter
+    if (cur_cost > new_cost)
+      break;
+    end
+    
     eta = eta_dec_factor * eta;
     new_W = W - (update_W * eta);
     new_cost = cost_lcc(new_W, U, G, L);

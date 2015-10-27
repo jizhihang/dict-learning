@@ -5,17 +5,21 @@ function [ new_W, new_cost ] = sparse_coding( W, L, C )
 %   computed in cost_sc.m, and its gradient is computed in
 %   update_weights_sc.m.
 
-global init_eta eta_dec_factor eta_inc_factor thresh_factor
+global init_eta eta_dec_factor eta_inc_factor thresh_factor max_iter
 
 eta = init_eta;
 cur_cost = C;
 
-while 1 
+for i = 1:max_iter
   update_W = update_weights_sc(W, L);
   new_W = W - (update_W * eta);
   new_cost = cost_sc(new_W, L);
 
-  while (cur_cost < new_cost)
+  for j = 1:max_iter
+    if (cur_cost > new_cost)
+      break;
+    end
+    
     eta = eta_dec_factor * eta;
     new_W = W - (update_W * eta);
     new_cost = cost_sc(new_W, L);

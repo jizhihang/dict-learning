@@ -12,7 +12,7 @@ function [ W, U ] = dict_learning_lcc( G, m, lam, sig )
 %   implemented in cost_lcc.m.
 
 globals
-global lambda sigma thresh_factor
+global lambda sigma thresh_factor max_iter
 lambda = lam;
 sigma = sig;
 
@@ -21,7 +21,7 @@ W = init_weights(U, G);
 L = atom_log_product(U, G);
 cur_cost = cost_lcc(W, U, G, L);
 
-while 1
+for i = 1:max_iter
   [W, new_cost] = locality_constrained_coding(W, U, G, L, cur_cost);
 
   if ((cur_cost - new_cost) > (thresh_factor * cur_cost))

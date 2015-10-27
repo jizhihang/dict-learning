@@ -5,18 +5,22 @@ function [ new_U, new_L, new_cost ] = codebook_opt_lcc( W, U, G, C )
 %   the underlying cost function is computed in cost_lcc.m, and its
 %   gradient is computed in update_atoms_lcc.m.
 
-global init_eta eta_dec_factor eta_inc_factor thresh_factor
+global init_eta eta_dec_factor eta_inc_factor thresh_factor max_iter
 
 eta = init_eta;
 cur_cost = C;
 
-while 1 
+for i = 1:max_iter
   update_U = update_atoms_lcc(W, U, G);
   new_U = normu(U - (update_U * eta), G);
   new_L = atom_log_product(new_U, G);
   new_cost = cost_lcc(W, new_U, G, new_L);
 
-  while (cur_cost < new_cost)
+  for j = 1:max_iter
+    if (cur_cost > new_cost)
+      break;
+    end
+    
     eta = eta_dec_factor * eta;
     new_U = normu(U - (update_U * eta), G);
     new_L = atom_log_product(new_U, G);

@@ -59,3 +59,12 @@ eta_inc_factor = 1.1;
 
 global thresh_factor
 thresh_factor = 0.01;
+
+%MAX_ITER Maximum number of iterations of convergence algorithms
+%   This variable specifies the maximum number of iterations for which
+%   various convergence algorithms are run, following which they are
+%   terminated even if the specified termination conditions are not
+%   satisfied.
+
+global max_iter
+max_iter = 10;

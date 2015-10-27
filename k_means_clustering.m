@@ -10,13 +10,13 @@ function U = k_means_clustering( G, m )
 %   performing gradient descent with respect to the cost function defined
 %   in cost_clustering.m.
 
-global thresh_factor
+global thresh_factor max_iter
 
 U = farthest_point_clustering(G, m);
 L = k_means_labeling(G, U);
 cur_cost = cost_clustering(G, U, L);
 
-while 1 
+for i = 1:max_iter
   U = k_means_averaging(G, U, L);
   L = k_means_labeling(G, U);
   new_cost = cost_clustering(G, U, L);

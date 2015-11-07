@@ -18,7 +18,7 @@ sigma = sig;
 
 U = k_means_clustering(G, m);
 W = init_weights(U, G);
-L = atom_log_product(U, G);
+L = atom_log_product(U, G, G);
 cur_cost = cost_lcc(W, U, G, L);
 
 for i = 1:max_iter

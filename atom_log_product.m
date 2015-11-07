@@ -1,17 +1,17 @@
-function prod = atom_log_product( U, G )
+function prod = atom_log_product( U, G, X )
 %ATOM_LOG_PRODUCT Computes the inner products of the log maps of the atoms
 %   This function computes the inner products of every pair of log maps of
 %   dictionary atoms, with respect to every input.
 
 m = size(U, 2);
-n = size(U, 1);
+l = size(X, 2);
 
-M = G * U;
-N = U' * M;
+M = X' * U;
+N = U' * G * U;
 
-prod = zeros(m, m, n);
+prod = zeros(m, m, l);
 
-parfor i = 1:n
+parfor i = 1:l
   temp = zeros(m, m);
   
   for j = 1:m

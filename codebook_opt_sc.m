@@ -13,7 +13,7 @@ cur_cost = C;
 for i = 1:max_iter
   update_U = update_atoms_sc(W, U, G);
   new_U = normu(U - (update_U * eta), G);
-  new_L = atom_log_product(new_U, G);
+  new_L = atom_log_product(new_U, G, G);
   new_cost = cost_sc(W, new_L);
 
   for j = 1:max_iter
@@ -23,7 +23,7 @@ for i = 1:max_iter
     
     eta = eta_dec_factor * eta;
     new_U = normu(U - (update_U * eta), G);
-    new_L = atom_log_product(new_U, G);
+    new_L = atom_log_product(new_U, G, G);
     new_cost = cost_sc(W, new_L);
   end
   

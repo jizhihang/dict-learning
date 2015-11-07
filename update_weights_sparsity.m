@@ -9,11 +9,11 @@ global norm_p
 p = norm_p;
 
 m = size(W, 1);
-n = size(W, 2);
+l = size(W, 2);
 
-update_W = zeros(m, n);
+update_W = zeros(m, l);
 
-parfor i = 1:n
+parfor i = 1:l
   for j = 1:m
     update_W(j, i) = p * diff_huber(W(j, i)) * ...
       my_inv(abs(W(j, i))^(1 - p));

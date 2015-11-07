@@ -17,7 +17,7 @@ norm_p = p;
 
 U = k_means_clustering(G, m);
 W = init_weights(U, G);
-L = atom_log_product(U, G);
+L = atom_log_product(U, G, G);
 cur_cost = cost_sc(W, L);
 
 for i = 1:max_iter

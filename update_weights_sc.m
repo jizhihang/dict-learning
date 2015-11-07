@@ -13,12 +13,12 @@ function update_W = update_weights_sc( W, L )
 global lambda
 
 m = size(W, 1);
-n = size(W, 2);
+l = size(W, 2);
 
 update_W = update_weights_reconstruction(W, L) + ...
   (lambda * update_weights_sparsity(W));
 
-parfor i = 1:n
+parfor i = 1:l
   update_W(:, i) = update_W(:, i) - (sum(update_W(:, i)) / m);
 end
 end

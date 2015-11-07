@@ -6,11 +6,11 @@ function cost = cost_reconstruction( W, L )
 %   dictionary atoms with respect to the inputs, capturing a notion of
 %   centrality of the atoms among the inputs.
 
-n = size(W, 2);
+l = size(W, 2);
 
-costs = zeros(1, n);
+costs = zeros(1, l);
 
-parfor i = 1:n 
+parfor i = 1:l 
   costs(i) = W(:, i)' * L(:, :, i) * W(:, i);
 end
 

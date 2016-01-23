@@ -12,5 +12,5 @@ norm_p = p;
 W = init_weights(U, X);
 L = atom_log_product(U, G, X);
 cur_cost = cost_sc(W, L);
-[W, ~] = sparse_coding(W, U, X, L, cur_cost);
+[W, ~] = sparse_coding(W, L, cur_cost);
 end

@@ -1,4 +1,4 @@
-function W = encode_sc( U, G, X, lam, p )
+function W = encode_sc( U, G, H, I, lam, p )
 %ENCODE_SC Encodes a set with respect to a dictionary
 %   This function computes the sparsity coding of a set of inputs with
 %   respect to a set of dictionary atoms, themselves specified as a linear
@@ -9,8 +9,11 @@ global lambda norm_p
 lambda = lam;
 norm_p = p;
 
-W = init_weights(U, X);
-L = atom_log_product(U, G, X);
-cur_cost = cost_sc(W, L);
-[W, ~] = sparse_coding(W, L, cur_cost);
+UtGU = U' * G * U;
+L = k_means_labeling(I, U, UtGU);
+m = size(U, 2);
+W = init_weights(L, m);
+IU = I * U;
+cur_cost = cost_sc(W, H, IU, UtGU);
+[W, ~] = sparse_coding(W, H, cur_cost, IU, UtGU);
 end

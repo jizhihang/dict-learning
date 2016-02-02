@@ -16,13 +16,14 @@ global lambda sigma thresh_factor max_iter
 lambda = lam;
 sigma = sig;
 
-U = k_means_clustering(G, m);
-W = init_weights(U, G);
-L = atom_log_product(U, G, G);
-cur_cost = cost_lcc(W, U, G, L);
+[U, L, UtGU] = k_means_clustering(G, m);
+W = init_weights(L, m);
+GU = G * U;
+cur_cost = cost_lcc(W, G, GU, UtGU);
 
 for i = 1:max_iter
-  [W, new_cost] = locality_constrained_coding(W, U, G, L, cur_cost);
+  [W, new_cost] = ...
+    locality_constrained_coding(W, G, cur_cost, GU, UtGU);
 
   if ((cur_cost - new_cost) > (thresh_factor * cur_cost))
     cur_cost = new_cost;
@@ -30,7 +31,7 @@ for i = 1:max_iter
     break;
   end
   
-  [U, L, new_cost] = codebook_opt_lcc(W, U, G, cur_cost);
+  [U, new_cost, GU, UtGU] = codebook_opt_lcc(W, U, G, cur_cost);
 
   if ((cur_cost - new_cost) > (thresh_factor * cur_cost))
     cur_cost = new_cost;

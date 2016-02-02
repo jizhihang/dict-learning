@@ -1,4 +1,4 @@
-function W = encode_lcc( U, G, X, lam, sig )
+function W = encode_lcc( U, G, H, I, lam, sig )
 %ENCODE_LCC Encodes a set with respect to a dictionary
 %   This function computes the locality constrained coding of a set of
 %   inputs with respect to a set of dictionary atoms, themselves specified
@@ -9,8 +9,11 @@ global lambda sigma
 lambda = lam;
 sigma = sig;
 
-W = init_weights(U, X);
-L = atom_log_product(U, G, X);
-cur_cost = cost_lcc(W, U, X, L);
-[W, ~] = locality_constrained_coding(W, U, X, L, cur_cost);
+UtGU = U' * G * U;
+L = k_means_labeling(I, U, UtGU);
+m = size(U, 2);
+W = init_weights(L, m);
+IU = I * U;
+cur_cost = cost_lcc(W, H, IU, UtGU);
+[W, ~] = locality_constrained_coding(W, H, cur_cost, IU, UtGU);
 end

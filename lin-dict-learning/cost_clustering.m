@@ -1,4 +1,4 @@
-function cost = cost_clustering( G, U, L )
+function cost = cost_clustering( G, U, L, UtG, UtGU )
 %COST_CLUSTERING Cost function for k-means clustering
 %   This function computes the cost function for k-means clustering. This,
 %   along with its gradient (computed in update_atoms_cluster.m), are used
@@ -10,13 +10,11 @@ function cost = cost_clustering( G, U, L )
 
 m = size(U, 2);
 
-UG = U' * G;
-
 costs = zeros(m);
 
 parfor i = 1:m
-  costs(i) = (size(G(L == i, :), 1) * UG(i, :) * U(:, i)) - ...
-    (2 * sum(UG(i, L == i)));
+  costs(i) = (size(G(L == i, :), 1) * UtGU(i, i)) - ...
+    (2 * sum(UtG(i, L == i)));
 end
 
 cost = sum(diag(G)) + sum(costs);

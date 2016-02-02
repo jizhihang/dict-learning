@@ -1,18 +1,17 @@
-function cost = cost_reconstruction( W, L )
+function cost = cost_reconstruction( W, H, IU, UtGU )
 %COST_RECONSTRUCTION Reconstruction term of the dictionary learning cost
 %   This function implements the cost associated with reconstructing the
 %   inputs from the dictionary atoms. This cost is defined as the sum of
-%   the squares of the norms of a weighted sum of the log maps of the
-%   dictionary atoms with respect to the inputs, capturing a notion of
-%   centrality of the atoms among the inputs.
+%   the squared distances of the input points from their reconstructions in
+%   terms of the dictionary atoms, defined as a weighted sum.
 
-l = size(W, 2);
+n = size(W, 2);
 
-costs = zeros(1, l);
+costs = zeros(1, n);
 
-parfor i = 1:l 
-  costs(i) = W(:, i)' * L(:, :, i) * W(:, i);
+parfor i = 1:n
+  costs(i) = (W(:, i)' * UtGU * W(:, i)) - (2 * IU(i, :) * W(:, i));
 end
 
-cost = sum(costs);
+cost = sum(diag(H)) + sum(costs);
 end

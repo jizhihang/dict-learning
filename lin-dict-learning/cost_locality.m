@@ -1,4 +1,4 @@
-function cost = cost_locality( W, U, X )
+function cost = cost_locality( W, H, IU, UtGU )
 %COST_LOCALITY Cost associated with the locality constraint
 %   This function computes the cost associated with the locality constraint
 %   imposed by LCC. The constraint is a sum of the squared exponentials of
@@ -9,16 +9,15 @@ global sigma
 sig = sigma;
 
 m = size(W, 1);
-l = size(W, 2);
+n = size(W, 2);
 
-M = X' * U;
+costs = zeros(1, m);
 
-costs = zeros(1, l);
-
-parfor i = 1:l
-  for j = 1:m
-    costs(i) = costs(i) + ...
-      (W(j, i)^2 * exp(2 * sig * my_acos(M(i, j))));
+parfor j = 1:m
+  for i = 1:n
+    costs(j) = costs(j) + ...
+      (W(j, i)^2 * ...
+      exp(2 * sig * my_sqrt(H(i, i) - (2 * IU(i, j)) + UtGU(j, j))));
   end
 end
 

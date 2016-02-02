@@ -1,4 +1,5 @@
-function [ new_U, new_L, new_cost ] = codebook_opt_lcc( W, U, G, C )
+function [ new_U, new_cost, Gnew_U, new_UtGnew_U ] = ...
+  codebook_opt_lcc( W, U, G, C )
 %CODEBOOK_OPT_LCC Updates the dictionary
 %   This function updates the dictionary atoms so as to be better able to
 %   represent the inputs. We perform gradient descent on the dictionary;
@@ -7,14 +8,18 @@ function [ new_U, new_L, new_cost ] = codebook_opt_lcc( W, U, G, C )
 
 global init_eta eta_dec_factor eta_inc_factor thresh_factor max_iter
 
+WWt = W * W';
+WG = W * G;
+
 eta = init_eta;
 cur_cost = C;
 
 for i = 1:max_iter
-  update_U = update_atoms_lcc(W, U, G);
-  new_U = normu(U - (update_U * eta), G);
-  new_L = atom_log_product(new_U, G, G);
-  new_cost = cost_lcc(W, new_U, G, new_L);
+  update_U = update_atoms_lcc(W, U, G, WWt, WG);
+  new_U = U - (update_U * eta);
+  Gnew_U = G * new_U;
+  new_UtGnew_U = new_U' * Gnew_U;
+  new_cost = cost_lcc(W, G, Gnew_U, new_UtGnew_U);
 
   for j = 1:max_iter
     if (cur_cost > new_cost)
@@ -22,9 +27,10 @@ for i = 1:max_iter
     end
     
     eta = eta_dec_factor * eta;
-    new_U = normu(U - (update_U * eta), G);
-    new_L = atom_log_product(new_U, G, G);
-    new_cost = cost_lcc(W, new_U, G, new_L);
+    new_U = U - (update_U * eta);
+    Gnew_U = G * new_U;
+    new_UtGnew_U = new_U' * Gnew_U;
+    new_cost = cost_lcc(W, G, Gnew_U, new_UtGnew_U);
   end
   
   if ((cur_cost - new_cost) > (thresh_factor * cur_cost))

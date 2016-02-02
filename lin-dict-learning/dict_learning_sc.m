@@ -15,13 +15,13 @@ global lambda norm_p thresh_factor max_iter
 lambda = lam;
 norm_p = p;
 
-U = k_means_clustering(G, m);
-W = init_weights(U, G);
-L = atom_log_product(U, G, G);
-cur_cost = cost_sc(W, L);
+[U, L, UtGU] = k_means_clustering(G, m);
+W = init_weights(L, m);
+GU = G * U;
+cur_cost = cost_sc(W, G, GU, UtGU);
 
 for i = 1:max_iter
-  [W, new_cost] = sparse_coding(W, L, cur_cost);
+  [W, new_cost] = sparse_coding(W, G, cur_cost, GU, UtGU);
 
   if ((cur_cost - new_cost) > (thresh_factor * cur_cost))
     cur_cost = new_cost;
@@ -29,7 +29,7 @@ for i = 1:max_iter
     break;
   end
   
-  [U, L, new_cost] = codebook_opt_sc(W, U, G, cur_cost);
+  [U, new_cost, GU, UtGU] = codebook_opt_sc(W, U, G, cur_cost);
   
   if ((cur_cost - new_cost) > (thresh_factor * cur_cost))
     cur_cost = new_cost;

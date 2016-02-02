@@ -7,13 +7,28 @@ function atoms = farthest_point_clustering( G, m )
 
 n = size(G, 1);
 
-atoms = zeros(n, m);
-atoms(1, 1) = 1;
-dot_matrix = zeros(m - 1, n);
+indices = zeros(m);
+indices(1) = 1;
 
 for i = 2:m
-  dot_matrix(i - 1, :) = atoms(:, i - 1)' * G;
-  [~, I] = min(max(dot_matrix(1:(i - 1), :), [], 1));
-  atoms(I, i) = 1;
+  vals = zeros(n);
+  
+  for j = 1:n
+    temps = zeros(i - 1);
+    
+    for k = 1:(i - 1)
+      temps(k) = G(indices(k), indices(k)) - (2 * G(j, indices(k)));
+    end
+    
+    [~, vals(i)] = min(max(temps));
+  end
+  
+  [~, indices(i)] = min(max(vals));
+end
+
+atoms = zeros(n, m);
+
+for i = 1:m
+  atoms(indices(i), i) = 1;
 end
 end

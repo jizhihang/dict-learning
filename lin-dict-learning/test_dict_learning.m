@@ -1,5 +1,5 @@
-n = 500;
-m = 20;
+n = 10;
+m = 3;
 X = zeros(m, n);
 
 parfor i = 1:n
@@ -8,6 +8,6 @@ parfor i = 1:n
   X(:, i) = I(:, sel);
 end
 
-X = normc(X + normrnd(0, 0.2, m, n));
+X = X + normrnd(0, 0.2, m, n);
 G = X' * X;
 [W, U] = dict_learning_lcc(G, m, 10, 1);

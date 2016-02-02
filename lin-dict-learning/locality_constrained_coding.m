@@ -1,4 +1,5 @@
-function [ new_W, new_cost ] = locality_constrained_coding( W, U, X, L, C )
+function [ new_W, new_cost ] = ...
+  locality_constrained_coding( W, H, C, IU, UtGU )
 %LOCALITY_CONSTRAINED_CODING Learns the best dictionary weights for the
 %inputs
 %   This function performs gradient descent to optimize the weights of the
@@ -12,9 +13,9 @@ eta = init_eta;
 cur_cost = C;
 
 for i = 1:max_iter
-  update_W = update_weights_lcc(W, U, X, L);
+  update_W = update_weights_lcc(W, H, IU, UtGU);
   new_W = W - (update_W * eta);
-  new_cost = cost_lcc(new_W, U, X, L);
+  new_cost = cost_lcc(new_W, H, IU, UtGU);
 
   for j = 1:max_iter
     if (cur_cost > new_cost)
@@ -23,7 +24,7 @@ for i = 1:max_iter
     
     eta = eta_dec_factor * eta;
     new_W = W - (update_W * eta);
-    new_cost = cost_lcc(new_W, U, X, L);
+    new_cost = cost_lcc(new_W, H, IU, UtGU);
   end
   
   if ((cur_cost - new_cost) > (thresh_factor * cur_cost))

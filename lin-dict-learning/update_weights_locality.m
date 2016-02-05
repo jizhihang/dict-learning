@@ -14,7 +14,7 @@ update_W = zeros(m, n);
 parfor j = 1:m
   for i = 1:n
     update_W(j, i) = 2 * W(j, i) * ...
-      exp(2 * sig * my_sqrt(H(i, i) - (2 * IU(i, j)) + UtGU(j, j)));
+      exp(2 * sig * sqrt(max(H(i, i) - (2 * IU(i, j)) + UtGU(j, j), 0)));
   end
 end
 end

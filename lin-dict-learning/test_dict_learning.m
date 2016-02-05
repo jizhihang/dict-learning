@@ -1,5 +1,5 @@
-n = 10;
-m = 3;
+n = 500;
+m = 20;
 X = zeros(m, n);
 
 parfor i = 1:n

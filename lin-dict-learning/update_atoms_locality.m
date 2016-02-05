@@ -14,13 +14,9 @@ update_U = zeros(n, m);
 parfor j = 1:m
   N = U(:, j)' * G * U(:, j);
   
-  for i = 1:n
-    for k = 1:n
-      dist = my_sqrt(G(k, k) - (2 * GU(k, j)) + N);
-      
-      update_U(i, j) = update_U(i, j) + ...
-        (2 * sig * W(j, k)^2 * (GU(i, j) - G(k, i)) * ...
-        exp(2 * sig * dist) * my_inv(dist));
-    end
+  for k = 1:n
+    dist = sqrt(max(G(k, k) - (2 * GU(k, j)) + N, 0));
+    update_U(:, j) = update_U(:, j) + (2 * sig * W(j, k)^2 * ...
+      exp(2 * sig * dist) * my_inv(dist) * (GU(:, j) - G(:, k)));
   end
 end

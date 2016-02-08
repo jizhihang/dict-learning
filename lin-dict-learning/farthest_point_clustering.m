@@ -20,7 +20,7 @@ for i = 2:m
       temps(k) = G(indices(k), indices(k)) - (2 * G(j, indices(k)));
     end
     
-    [~, vals(i)] = min(max(temps));
+    vals(j) = min(temps);
   end
   
   [~, indices(i)] = min(max(vals));

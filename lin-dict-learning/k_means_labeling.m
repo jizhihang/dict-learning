@@ -15,5 +15,5 @@ end
 
 dists = dists - (2 * I * U);
 
-[~, labels] = max(dists, [], 2);
+[~, labels] = min(dists, [], 2);
 end

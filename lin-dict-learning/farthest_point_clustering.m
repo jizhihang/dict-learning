@@ -7,14 +7,14 @@ function atoms = farthest_point_clustering( G, m )
 
 n = size(G, 1);
 
-indices = zeros(m);
+indices = zeros(1, m);
 indices(1) = 1;
 
 for i = 2:m
-  vals = zeros(n);
+  vals = zeros(1, n);
   
   for j = 1:n
-    temps = zeros(i - 1);
+    temps = zeros(1, i - 1);
     
     for k = 1:(i - 1)
       temps(k) = G(indices(k), indices(k)) - (2 * G(j, indices(k)));
@@ -23,7 +23,7 @@ for i = 2:m
     vals(j) = min(temps);
   end
   
-  [~, indices(i)] = min(max(vals));
+  [~, indices(i)] = max(vals);
 end
 
 atoms = zeros(n, m);

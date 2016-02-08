@@ -10,7 +10,7 @@ function cost = cost_clustering( G, U, L, UtG, UtGU )
 
 m = size(U, 2);
 
-costs = zeros(m);
+costs = zeros(1, m);
 
 parfor i = 1:m
   costs(i) = (size(G(L == i, :), 1) * UtGU(i, i)) - ...
